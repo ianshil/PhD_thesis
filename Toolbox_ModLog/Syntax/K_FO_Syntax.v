@@ -421,16 +421,14 @@ Section Subst.
 
 End Subst.
 
-(* From Johannes https://github.com/dominik-kirst/coq-library-undecidability/blob/4c579ddc7c71659a57fbe3a16198bfcaa1b9a020/theories/FOL/Syntax/Facts.v#L956 *)
+(* Atom substitution.
+   From Johannes https://github.com/dominik-kirst/coq-library-undecidability/blob/4c579ddc7c71659a57fbe3a16198bfcaa1b9a020/theories/FOL/Syntax/Facts.v#L956 *)
 
 Section PredicateSubstitution.
 
   Context {Σ_funcs : funcs_signature}.
   Context {Σ_preds : preds_signature}.
   Context {ops : operators}.
-
-(* I think this definition is too generous: it will not be admissible as there can be capture of variables. *)
-
 
 Fixpoint atom_subst (s : forall (P : Σ_preds), Vector.t (@term Σ_funcs) (ar_preds P) -> kform) (phi : kform) :=
     match phi with
