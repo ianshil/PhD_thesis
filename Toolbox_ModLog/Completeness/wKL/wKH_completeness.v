@@ -1,8 +1,4 @@
 Require Import Classical.
-(* Used in various places:
-    - existence of a derivation in the axiomatic system for a sequent
-      (should be decidable as Bi-Int is, but this would require extra work)
-    - some set-theoretic arguments (maybe they can be constructivised *)
 
 Require Import List.
 Export ListNotations.
