@@ -15,7 +15,7 @@ Require Import K_wKH_meta_interactions.
 Require Import K_sKH_meta_interactions.
 Require Import K_Kripke_sem.
 Require Import K_bisimulation.
-Require Import wKH_Lindenbaum_lem.
+(* Require Import wKH_Lindenbaum_lem. *)
 Require Import wKH_completeness.
 
 Fixpoint n_reachable {W : Type} (R : W -> W -> Prop) (n: nat) (w v : W) : Prop :=
@@ -70,6 +70,31 @@ Definition restr_model (M : kmodel) (w : nodes) : kmodel :=
         reachable := (restr_rel (@reachable M) w) ;
         val := (restr_val (@reachable M) (@val M) w) |}.
 
+(* The model and its restricted version are bisimilar. *)
+
+Lemma restr_bisim : forall M w, bisimulation M (restr_model M w)
+(fun (x : (@nodes M)) (y : (restr_worlds (@reachable M) w)) => x = (proj1_sig y)).
+Proof.
+intros. unfold bisimulation. intros. subst. repeat split.
+- intro. unfold restr_val. auto.
+- intro. unfold restr_val. auto.
+- intros. exists (proj1_sig v1). split ; auto.
+- intros. assert (J20: is_reachable (@reachable M) w v0).
+  unfold is_reachable. destruct w1. simpl in H. unfold is_reachable in i.
+  destruct i. exists (S x0). simpl. exists x. split ; auto.
+  pose(@exist  (@nodes M) (@is_reachable (@nodes M) (@reachable M) w) v0 J20). exists s.
+  auto.
+Qed.
+
+Lemma restr_wforces : forall M w (pw : @nodes (restr_model M w)) A,
+  (wforces (restr_model M w) pw A) <-> (wforces M (proj1_sig pw) A).
+Proof.
+intros.
+pose (bisimulation_imp_modal_equiv M (restr_model M w)
+(fun (x : (@nodes M)) (y : (restr_worlds (@reachable M) w)) => x = (proj1_sig y))
+(restr_bisim M w) A (proj1_sig pw) pw). split ; apply i ; auto.
+Qed.
+
 (* This gives us completeness. *)
 
 Theorem sCounterCompleteness : forall Γ A,
@@ -86,23 +111,12 @@ assert (J2: wKH_prv (Box_clos_set Γ, A) -> False).
 intro. apply J1. apply sKH_extens_wKH ; auto.
 pose (wCounterCompleteness _ _ J2).
 intro. apply f. intro. intros. unfold glob_conseq in H.
-
-assert (Bisim: bisimulation M (restr_model M w)
-(fun (x : (@nodes M)) (y : (restr_worlds (@reachable M) w)) => x = (proj1_sig y))).
-{ unfold bisimulation. intros. subst. repeat split.
-  - intro. unfold restr_val. auto.
-  - intro. unfold restr_val. auto.
-  - intros. exists (proj1_sig v1). split ; auto.
-  - intros. assert (J20: is_reachable (@reachable M) w v0).
-    unfold is_reachable. destruct w1. simpl in H1. unfold is_reachable in i.
-    destruct i. exists (S x0). simpl. exists x. split ; auto.
-    pose(@exist  (@nodes M) (@is_reachable (@nodes M) (@reachable M) w) v0 J20). exists s.
-    auto. }
+pose (restr_bisim M w).
 
 (* All formulae in Γ are globally true in the restricted model. *)
 assert (SAT: forall (pw : @nodes (restr_model M w)) A, (In _ Γ A) ->
 wforces (restr_model M w) pw A).
-{ intros. pose (bisimulation_imp_modal_equiv _ _ _ Bisim).
+{ intros. pose (bisimulation_imp_modal_equiv _ _ _ (restr_bisim M w)).
   pose (i A0 (proj1_sig pw) pw). apply i0. auto. clear i0. clear i. destruct pw. simpl.
   unfold is_reachable in i. destruct i.
   assert (J5: wforces M w (Box_power x0 A0)).
@@ -112,7 +126,7 @@ wforces (restr_model M w) pw A).
 assert (J20: is_reachable (@reachable M) w w). unfold is_reachable. exists 0.
 unfold n_reachable. auto.
 pose (@exist (@nodes M) (is_reachable (@reachable M) w) w J20).
-pose (bisimulation_imp_modal_equiv _ _ _ Bisim A w s). apply i ; auto.
+pose (bisimulation_imp_modal_equiv _ _ _ (restr_bisim M w) A w s). apply i ; auto.
 apply H. intros. intro. apply SAT. auto.
 Qed.
 
