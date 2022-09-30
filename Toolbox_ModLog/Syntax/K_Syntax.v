@@ -95,13 +95,8 @@ match A with
  | Box B => Box (subst f B)
 end.
 
-(* Now, we can prove that some properties of formulae hold. *)
-
 Definition is_atomicT (A : MPropF) : Type :=
                   (exists (p : V), A = # p) + (A = Bot).
-
-(* We can define some types of lists formulae. For example, we can define
-   lists of formulae which contain only propositional variables. *)
 
 Definition is_Atomic (Γ : @Ensemble MPropF) : Type :=
     forall (A : MPropF), (Γ A) -> ((exists (p : V), A = # p) + (A = Bot)).
