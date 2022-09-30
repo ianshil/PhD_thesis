@@ -8,9 +8,13 @@ Require Import K_Syntax.
 (* We define here the axioms. *)
 
 Definition MA1 (A B C : MPropF) : MPropF := (A --> B) --> ((B --> C) --> (A --> C)).
+
 Definition MA2 (A B : MPropF) : MPropF := A --> (B --> A).
+
 Definition MA3 (A B : MPropF) : MPropF := ((A --> B) --> A) --> A.
+
 Definition MA4 (A : MPropF) : MPropF := Bot --> A.
+
 Definition MA5 (A B : MPropF) : MPropF := Box (A --> B) --> (Box A --> Box B).
 
 Inductive KAxioms (A : MPropF) : Prop :=
