@@ -39,10 +39,13 @@ match φ with
 (Union _ (subform ψ) (subform χ))| Box ψ => Union _ (Singleton _ (Box ψ)) (subform ψ)
 end.
 
-Fixpoint subformlist (φ : MPropF) : list MPropF :=match φ with
-| Var p => (Var p) :: nil | Bot => Bot :: nil
-| Imp ψ χ => (Imp ψ χ) ::
-(subformlist ψ) ++ (subformlist χ) | Box ψ => (Box ψ) :: (subformlist ψ)end.
+Fixpoint subformlist (φ : MPropF) : list MPropF :=
+match φ with
+| Var p => (Var p) :: nil
+| Bot => Bot :: nil
+| Imp ψ χ => (Imp ψ χ) :: (subformlist ψ) ++ (subformlist χ)
+| Box ψ => (Box ψ) :: (subformlist ψ)
+end.
 
 Definition Neg (A : MPropF) := Imp A (Bot).
 
