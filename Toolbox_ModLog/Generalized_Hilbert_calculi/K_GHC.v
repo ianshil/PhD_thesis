@@ -20,7 +20,7 @@ Inductive KAxioms (A : MPropF) : Prop :=
  | MA4_I :  (exists B, A = (MA4 B)) -> KAxioms A
  | MA5_I :  (exists B C, A = (MA5 B C)) -> KAxioms A.
 
-(* Finally, we can define the rules which constitute our calculi. We gather
+(* Then, we can define the rules which constitute our calculi. We gather
    them in cacluli in a definition appearing later.
 
    We start by giving the rules common to both calculi. *)
@@ -29,12 +29,9 @@ Inductive IdRule : rls ((Ensemble MPropF) * MPropF) :=
   | IdRule_I : forall A (Γ : Ensemble _),
                   (In _ Γ A) -> IdRule [] (Γ , A).
 
-(* Need to define above a set of axioms, and put it directly in the rule I guess. *)
-
 Inductive AxRule : rls ((Ensemble MPropF) * MPropF) :=
   | AxRule_I : forall Γ (A : MPropF),
-          (KAxioms A) -> AxRule [] (Γ , A)
-.
+          (KAxioms A) -> AxRule [] (Γ , A).
 
 Inductive MPRule : rls ((Ensemble MPropF) * MPropF) :=
   | MPRule_I : forall A B Γ,
@@ -53,7 +50,7 @@ Inductive sNecRule : rls ((Ensemble MPropF) * MPropF) :=
           sNecRule [(Γ , A)]
                     (Γ, Box A).
 
-(* At last we can define our calculus GLS and its proof-search version PSGLS. *)
+(* At last we can define our calculi wKH and sKH. *)
 
 Inductive wKH_rules (s : ((Ensemble _) * MPropF)) : Prop :=
   | Id : IdRule [] s -> wKH_rules s
@@ -68,6 +65,8 @@ Inductive sKH_rules (s : ((Ensemble _) * MPropF)) : Prop :=
   | MPs : forall ps, (forall prem, List.In prem ps -> sKH_rules prem) -> MPRule ps s -> sKH_rules s
   | sNec : forall ps, (forall prem, List.In prem ps -> sKH_rules prem) -> sNecRule ps s -> sKH_rules s
 .
+
+(* Then, we define macros for provability. *)
 
 Definition wKH_prv s := wKH_rules s.
 Definition sKH_prv s := sKH_rules s.

@@ -528,11 +528,6 @@ inversion H9. subst. apply Id. apply IdRule_I. apply Union_intror. apply In_sing
 inversion H10.
 Qed.
 
-
-
-(* Finitarise, shift all formulas on the right, apply wNec, distribute Box,
-    shift all boxed formulas on the left. *)
-
 Lemma Imp_list_Imp : forall l Γ A B,
     wKH_prv (Γ, list_Imp (A --> B) l) <->
     wKH_prv (Γ, A --> list_Imp B l).
