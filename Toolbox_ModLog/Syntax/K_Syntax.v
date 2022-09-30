@@ -5,7 +5,7 @@ Require Import Ensembles.
 
 Delimit Scope My_scope with M.
 Open Scope My_scope.
-Set Implicit Arguments. 
+Set Implicit Arguments.
 
 Global Parameter V : Set.
 
@@ -30,6 +30,19 @@ Inductive MPropF : Type :=
 
 Notation "# p" := (Var p) (at level 1).
 Notation "A --> B" := (Imp A B) (at level 16, right associativity).
+
+Fixpoint subform (φ : MPropF) : Ensemble MPropF :=
+match φ with
+| Var p => Singleton _ (Var p)
+| Bot => Singleton _ Bot
+| Imp ψ χ => Union _ (Singleton _ (Imp ψ χ))
+(Union _ (subform ψ) (subform χ))| Box ψ => Union _ (Singleton _ (Box ψ)) (subform ψ)
+end.
+
+Fixpoint subformlist (φ : MPropF) : list MPropF :=match φ with
+| Var p => (Var p) :: nil | Bot => Bot :: nil
+| Imp ψ χ => (Imp ψ χ) ::
+(subformlist ψ) ++ (subformlist χ) | Box ψ => (Box ψ) :: (subformlist ψ)end.
 
 Definition Neg (A : MPropF) := Imp A (Bot).
 
@@ -79,20 +92,17 @@ Qed.
 
 
 
-Fixpoint size (A : MPropF) : nat :=
-match A with
- | # p => 1
- | Bot => 1
- | B --> C => 1 + (size B) + (size C)
- | Box B => 1 + (size B)
+Fixpoint size (φ : MPropF) : nat :=
+match φ with
+| Var p => 1| Bot => 1
+| Imp ψ χ => 1 + (size ψ) + (size χ) | Box ψ => 1 + (size ψ)
 end.
 
-Fixpoint subst (f : V -> MPropF) (A : MPropF) : MPropF :=
-match A with
- | # p => (f p)
- | Bot => Bot
- | B --> C => Imp (subst f B) (subst f C)
- | Box B => Box (subst f B)
+Fixpoint subst (σ : V -> MPropF) (φ : MPropF) : MPropF :=
+match φ with
+| Var p => (σ p)
+| Bot => Bot
+| Imp ψ χ => Imp (subst σ ψ) (subst σ χ)| Box ψ => Box (subst σ ψ)
 end.
 
 Definition is_atomicT (A : MPropF) : Type :=
