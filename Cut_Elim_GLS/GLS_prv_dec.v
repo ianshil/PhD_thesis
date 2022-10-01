@@ -232,7 +232,7 @@ Theorem GLS_dec_prv : forall s,
 Proof.
 intro s.
 assert (J1 : mhd s = mhd s). reflexivity.
-pose (PSGLS_dec_der s J1). destruct s0.
+pose (PSGLS_dec_prv s J1). destruct s0.
 - left ; apply PSGLS_imp_GLS ; assumption.
 - right ; intro ; apply f ; apply GLS_imp_PSGLS ; assumption.
 Qed.
