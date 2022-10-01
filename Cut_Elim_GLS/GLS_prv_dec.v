@@ -154,7 +154,7 @@ in der.
     pose (derrec_leaves_thms d IH). assumption.
 Qed.
 
-Theorem PSGLS_dec_der : forall k s, (k = mhd s) ->
+Theorem PSGLS_dec_prv : forall k s, (k = mhd s) ->
   (derrec PSGLS_rules (fun _ => False) s) + ((derrec PSGLS_rules (fun _ => False) s) -> False).
 Proof.
 assert (PSDersNilF: dersrec PSGLS_rules (fun _ : rel (list MPropF) => False) []).
@@ -227,7 +227,7 @@ destruct X0.
         assumption. }
 Qed.
 
-Theorem GLS_dec_der : forall s,
+Theorem GLS_dec_prv : forall s,
   (derrec GLS_rules (fun _ => False) s) + ((derrec GLS_rules (fun _ => False) s) -> False).
 Proof.
 intro s.
