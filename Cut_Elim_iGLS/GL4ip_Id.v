@@ -17,7 +17,7 @@ Require Import GL4ip_exch.
 Require Import GL4ip_wkn.
 Require Import GL4ip_inv_ImpR.
 
-(* We can show that identities on formulae of all complexities are derivable in GL4ip. *)
+(* We can show that identities on formulae of all complexities are provable in GL4ip. *)
 
 Lemma Id_all_form0 : forall n (A : MPropF) Γ0 Γ1,
           (n = weight_form A) ->
