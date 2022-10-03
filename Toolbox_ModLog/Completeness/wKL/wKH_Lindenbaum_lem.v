@@ -1,7 +1,4 @@
 Require Import Classical.
-(* Used in various places:
-    - existence of a derivation in the axiomatic system for a sequent
-    - some set-theoretic arguments (maybe they can be constructivised) *)
 
 Require Import List.
 Export ListNotations.
@@ -28,9 +25,6 @@ Require Import strong_induction.
 
 Parameter encode0 : MPropF -> nat.
 
-(* Check https://www.ps.uni-saarland.de/extras/iel/website/iel.forms.html#decode_surj to get a function
-    enumerating formulae. *)
-
 Hypothesis encode0_inj : forall A B, (encode0 A = encode0 B) -> A = B.
 
 Definition encode : MPropF -> nat := fun x => S (encode0 x).
@@ -40,61 +34,11 @@ Proof.
 intros. unfold encode in H. lia.
 Qed.
 
-(* Lemma encode_inj : forall A B n, (encode A = n) -> (encode B = n) -> A = B.
-Proof.
-intros. unfold encode in H. unfold encode in H0.
-destruct n. exfalso. lia. inversion H. inversion H0. subst.
-apply encode0_inj with (n:=encode0 A) ; auto.
-Qed. *)
-
 Lemma encode_inj : forall A B, (encode A = encode B) -> A = B.
 Proof.
 intros. unfold encode in H. inversion H.
 apply encode0_inj  ; auto.
 Qed.
-
-(* Lemma decoding_inh0 :
-  {g : nat -> option (MPropF) | (forall A, g (encode A) = Some A) /\
-                                  (forall n, (forall (E : {A : _ | encode A = n}), (g n = Some (proj1_sig E))) /\
-                                             (((exists A, encode A = n) -> False) -> g n = None)) }.
-Proof.
-apply constructive_definite_description.
-assert (H : forall n, exists! op, (forall E : {A : MPropF | encode A = n},
-    op = Some (proj1_sig E)) /\ (((exists A : MPropF, encode A = n) -> False) ->
-    op = None)).
-{ intro n. 
-  destruct (classic (exists A, encode A = n)).
-  destruct H. exists (Some x). unfold unique. repeat split. intros.
-  subst. simpl. destruct E. simpl. pose (encode_inj x x0).
-  assert (encode x = encode x). auto. symmetry in e. pose (e0 e). rewrite e1. auto.
-  intro. exfalso. apply H0. exists x. auto. intros. destruct H0.
-  assert ({A : MPropF | encode A = n}). exists x. auto. pose (H0 H2).
-  destruct H2. simpl in e. rewrite <- e0 in H. pose (encode_inj x x0).
-  assert (encode x = encode x). auto. pose (e1 H).
-  rewrite <- e2 in e. auto. exists None. unfold unique. repeat split. intros.
-  exfalso. apply H. destruct E. exists x. auto. intros. destruct H0. apply H1 in H.
-  auto. }
-exists (fun y => proj1_sig (constructive_definite_description _ (H y))).
-split.
-- split.
-  + intros A.
-    destruct (constructive_definite_description _ _).
-    simpl. destruct a. assert ({A0 : MPropF | encode A0 = encode A}). exists A. auto.
-    pose (H0 H2). destruct H2. simpl in e. pose (encode_inj x0 A).
-    assert (encode x0 = encode x0). auto. pose (e1 e0). assert (encode x0 = encode A).
-    auto. symmetry in H3. rewrite e2 in e. auto.
-  + intros n.
-    now destruct (constructive_definite_description _ _).
-- intros g' [H1 H2].
-  apply functional_extensionality.
-  intros n.
-  destruct (constructive_definite_description _ _) as [x e].
-  simpl. destruct e. destruct (classic (exists A, encode A = n)).
-  + clear H3. destruct H4. assert ({A : MPropF | encode A = n}). exists x0. auto.
-    pose (H0 H4). pose (H2 n). destruct a. pose (H5 H4). destruct H4. simpl in e0.
-    simpl in e. rewrite e. rewrite e0. auto.
-  + pose (H3 H4). rewrite e. pose (H2 n). destruct a. pose (H6 H4). rewrite e0. auto.
-Qed. *)
 
 Lemma decoding_inh :
   {g : nat -> option (MPropF) | (forall A, g (encode A) = Some A) /\
@@ -161,7 +105,7 @@ Qed.
 
 (* ------------------------------------------------------------------------------------------------------------------------------------ *)
 
-(* How we build prime pairs. *)
+(* How we build the Lindenbaum extension. *)
 
 Definition choice_form Γ A B : Ensemble (MPropF) :=
 fun x => (In _ Γ x) \/
@@ -193,7 +137,7 @@ Definition Lind Γ A : Ensemble MPropF := fun x => (exists n, In _ (Lindf Γ A n
 
 
 
-(* A Lindf is an extension of the initial pair. *)
+(* A Lindf is an extension of the initial set. *)
 
 Lemma Lindf_extens : forall n Γ A x,
     In (MPropF) Γ x -> In _ (Lindf Γ A n) x.
@@ -265,7 +209,7 @@ induction n ; intros.
     unfold choice_form in H2. rewrite H2 in H0. clear H2. exfalso. apply H1. auto.
 Qed.
 
-(* A prime pair preserves derivability. *)
+(* A Lindf extension preserves deducibility. *)
 
 Lemma der_Lindf_m_Lindf_le : forall n m Γ A B,
   (wKH_prv (Lindf Γ A n, B)) -> (le n m) ->
@@ -310,7 +254,7 @@ intros s D. induction D ; intros.
   2: apply wNecRule_I. intros. inversion H2. subst. auto. inversion H3.
 Qed.
 
-(* A Lind pair is unprovable *)
+(* A Lind extension is unprovable *)
 
 Lemma Unprv_Lind : forall Γ A, (wKH_prv (Γ, A) -> False) ->
   (wKH_prv (Lind Γ A , A) -> False).
@@ -322,7 +266,7 @@ pose (der_Lindf_Lindf (Lind Γ A, A) H0 Γ A A J1 J2). destruct e.
 pose (Unprv_Lindf x Γ A H H1). auto.
 Qed.
 
-(* A Lind pair is maximal. *)
+(* A Lind extension is maximal. *)
 
 Lemma maximality_Lind_extens : forall Γ A, (wKH_prv (Γ, A) -> False) ->
   (forall B, (In _ (Lind Γ A) B) \/ (In _ (Lind Γ A) (B --> Bot))).
@@ -341,7 +285,7 @@ destruct H0. left. exists (encode B). auto. right. exists (encode B). auto.
 Qed.
 
 
-(* A prime pair is closed under derivation. *)
+(* A Lind extension is closed under derivation. *)
 
 Lemma closeder_Lind_extens : forall Γ A, (wKH_prv (Γ, A) -> False) ->
   (forall B, wKH_prv (Lind Γ A, B) -> (In _ (Lind Γ A) B)).
@@ -358,7 +302,7 @@ apply Id. apply IdRule_I. auto. inversion H5. subst. 2: inversion H6.
 auto.
 Qed.
 
-(* A prime pair is consistent. *)
+(* A Lind extension is consistent. *)
 
 Lemma Consist_Lindf : forall n Γ A, (wKH_prv (Γ, A) -> False) ->
   (wKH_prv (Lindf Γ A n, Bot) -> False).
