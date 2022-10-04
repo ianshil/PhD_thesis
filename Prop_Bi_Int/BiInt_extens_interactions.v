@@ -80,3 +80,10 @@ Proof.
 intros. apply sBIH_extens_wBIH. assumption.
 Qed.
 
+Theorem wBIH_sBIH_same_thms : forall A,
+    wBIH_rules (Empty_set _, A) <-> sBIH_rules (Empty_set _, A).
+Proof.
+intros. split ; intro.
+apply (wBIH_same_thms_sBIH _ H A) ; auto.
+apply (sBIH_same_thms_wBIH _ H A) ; auto.
+Qed.
