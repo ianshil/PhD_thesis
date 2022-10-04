@@ -132,7 +132,7 @@ intros. unfold bisimulation. intros. subst. repeat split ; intros ; auto.
   auto.
 Qed.
 
-Lemma restr_wforces : forall (pw : (@nodes pruned_M)) A,
+Lemma pruned_wforces : forall (pw : (@nodes pruned_M)) A,
   (wforces pruned_M pw A) <-> (wforces M (proj1_sig pw) A).
 Proof.
 intros.
