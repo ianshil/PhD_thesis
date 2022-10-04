@@ -30,9 +30,6 @@ Require Import BiInt_remove_list.
 
 Parameter encode0 : BPropF V -> nat.
 
-(* Check https://www.ps.uni-saarland.de/extras/iel/website/iel.forms.html#decode_surj to get a function
-    enumerating formulae. *)
-
 Hypothesis encode0_inj : forall A B n, (encode0 A = n) -> (encode0 B = n) -> A = B.
 
 Definition encode : BPropF V -> nat := fun x => S (encode0 x).
