@@ -111,6 +111,36 @@ Instance pruned_M : model :=
         persist := s_val_persist ;
       |}.
 
+Lemma pruned_bisim : bisimulation M pruned_M
+(fun (x : (@nodes M)) (y : (@nodes pruned_M)) => x = (proj1_sig y)).
+Proof.
+intros. unfold bisimulation. intros. subst. repeat split ; intros ; auto.
+- exists (proj1_sig v1). split ; auto.
+- destruct w1. simpl in H.
+  assert (J20: s_is_n_reachable v0).
+  unfold s_is_n_reachable. unfold s_is_n_reachable in s0.
+  destruct s0. exists (S x0). simpl. exists x. split ; auto.
+  pose(@exist  (@nodes M) s_is_n_reachable v0 J20). exists s1.
+  auto.
+- destruct w1. simpl in H. simpl. destruct v1. simpl.
+  simpl in H. exists x0. split ; auto.
+- destruct w1. simpl. simpl in H.
+  assert (J20: s_is_n_reachable v0).
+  unfold s_is_n_reachable. unfold s_is_n_reachable in s0.
+  destruct s0. exists (S x0). simpl. exists x. split ; auto.
+  pose(@exist  (@nodes M) s_is_n_reachable v0 J20). exists s1.
+  auto.
+Qed.
+
+Lemma restr_wforces : forall (pw : (@nodes pruned_M)) A,
+  (wforces pruned_M pw A) <-> (wforces M (proj1_sig pw) A).
+Proof.
+intros.
+pose (bisimulation_imp_bi_int_equiv M pruned_M
+(fun (x : (@nodes M)) (y : (@nodes pruned_M)) => x = (proj1_sig y))
+pruned_bisim A (proj1_sig pw) pw). split ; apply i ; auto.
+Qed.
+
 End pruning.
 
 Theorem sCounterCompleteness : forall (Γ Δ : @Ensemble (BPropF V)),
@@ -129,29 +159,12 @@ assert (J2: wpair_derrec (DN_clos_set Γ, Δ) -> False).
 intro. apply J1. apply pair_sBIH_extens_wBIH ; auto.
 pose (wCounterCompleteness _ _ J2).
 intro. apply f. intro. intros. unfold glob_conseq in H.
-
-assert (Bisim: forall (pw : (s_pruned_worlds M w)),
-  bisimulation M (@pruned_M M w) (fun (x : @nodes M) (y : (s_pruned_worlds M w)) => x = (proj1_sig y))).
-{ intros. unfold bisimulation. intros. subst. repeat split.
-  - intro. unfold s_pruned_val. auto.
-  - intro. unfold s_pruned_val. auto.
-  - intros. exists (proj1_sig v1). split ; auto.
-  - intros. assert (J20: s_is_n_reachable M w v0).
-    unfold s_is_n_reachable. destruct w1. simpl in H1. unfold s_is_n_reachable in s.
-    destruct s. exists (S x0). simpl. exists x. auto.
-    pose (@exist (@nodes M) (s_is_n_reachable M w) v0 J20). exists s.
-    auto.
-  - intros. exists (proj1_sig v1). split ; auto.
-  - intros. assert (J20: s_is_n_reachable M w v0).
-    unfold s_is_n_reachable. destruct w1. simpl in H1. unfold s_is_n_reachable in s.
-    destruct s. exists (S x0). simpl. exists x. auto.
-    pose (@exist (@nodes M) (s_is_n_reachable M w) v0 J20). exists s.
-    auto. }
+pose (pruned_bisim M w).
 
 (* All formulae in Γ are globally true in the pruned canonical model. *)
 assert (SAT: forall (pw : (s_pruned_worlds M w)) A, (In _ Γ A) ->
 wforces (pruned_M M w) pw A).
-{ intros. pose (bisimulation_imp_bi_int_equiv M (pruned_M M w) _ (Bisim pw)).
+{ intros. pose (bisimulation_imp_bi_int_equiv M (pruned_M M w) _ b).
   pose (i A (proj1_sig pw) pw). apply i0. auto. clear i0. clear i. destruct pw. simpl.
   unfold s_is_n_reachable in s. destruct s.
   assert (J5: wforces M w (DN_form x0 A)).
@@ -164,7 +177,7 @@ pose (@exist (@nodes M) (s_is_n_reachable M w) w J20).
 assert (exists B : BPropF V, In (BPropF V) Δ B /\ (wforces (pruned_M M w) s B)).
 apply H. intros. intro. apply SAT ; auto. destruct H1. destruct H1. exists x. split ; auto.
 assert (w=w). auto.
-pose (bisimulation_imp_bi_int_equiv _ _ _ (Bisim s) x w s). 
+pose (bisimulation_imp_bi_int_equiv _ _ _ b x w s).
 apply i ; auto.
 Qed.
 
