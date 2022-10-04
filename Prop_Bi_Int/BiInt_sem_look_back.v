@@ -164,28 +164,6 @@ intros. destruct u.
   destruct u ; auto. inversion H.
 Qed.
 
-
-
-
-(* destruct (eq_dec_propvar r p).
-  + subst. destruct v ; auto. simpl. destruct u0. split ; auto. apply diff_prop.
-     apply Logic.I. simpl. apply Logic.I.
-  + destruct (eq_dec_propvar r q).
-    * subst. destruct v ; auto. simpl. destruct u0. simpl in H0. destruct u.
-      inversion H0. exfalso ; apply H1 ; auto. 2: auto. simpl in H. inversion H.
-      simpl. auto.
-    * 
-
-
-
-  + destruct u. destruct p. simpl in H0. destruct v ; auto. simpl. destruct u ; auto.
-     destruct p. simpl in H0. destruct v ; auto. simpl. destruct u ; auto.
-  + destruct v ; simpl ; auto. destruct u0 ; auto. simpl in H0. destruct u ; auto.
-- destruct PQ1.
-  + destruct p. simpl in H0. destruct v ; simpl ; auto. destruct u ; simpl ; auto.
-  + simpl in H0. destruct v ; simpl ; auto. destruct u ; simpl ; auto.
-Qed. *)
-
 Instance M1 : model :=
       {|
         nodes := UnDeuxTrois ;
