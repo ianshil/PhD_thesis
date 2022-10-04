@@ -735,5 +735,42 @@ destruct H. destruct H0. simpl in H1. simpl in H0. destruct x.
   pose (s1 H3). inversion s2. subst. apply in_eq.
 Qed.
 
+Lemma Closure_DN_strong : forall Γ A, sBIH_rules (Γ, A) -> forall n, sBIH_rules (Γ, DN_form n A).
+Proof.
+intros. induction n.
+- simpl. auto.
+- simpl. apply DNs with (ps:=[(Γ, DN_form n A)]).
+  2: apply DNsRule_I. intros. inversion H0. subst. 2: inversion H1.
+  auto.
+Qed.
+
+Theorem gen_sBIH_Double_Negated_Detachment_Theorem : forall A B Γ,
+  (exists n, spair_derrec (Γ, Singleton _ ((DN_form n A) → B))) ->
+      spair_derrec (Union _ Γ (Singleton _ (A)), Singleton _ (B)).
+Proof.
+intros A B Γ spair. unfold spair_derrec. simpl. destruct spair.
+destruct H. destruct H. destruct H0. simpl in H1. simpl in H0.
+assert (x0 = [] \/ x0 = [DN_form x A → B]).
+{ destruct x0 ; subst ; simpl. auto. destruct x0 ; subst ; simpl ; auto. right. pose (H0 b).
+  destruct s ; auto. simpl ; auto. exfalso. inversion H. inversion H5.
+  apply H4. simpl. left. subst. pose (H0 b). destruct s ; auto. simpl ; auto.
+  pose (H0 b0). destruct s ; auto. simpl ; auto. }
+destruct H2.
+- subst. simpl in H1. exists []. repeat split ; auto. intros. inversion H2. simpl.
+  apply sBIH_monot with (Γ1:=Union (BPropF V) Γ (Singleton (BPropF V) A)) in H1 ; auto.
+  intro. simpl. intros. apply Union_introl. auto.
+- subst. simpl in H1. exists [B]. repeat split ; auto. apply NoDup_cons ; auto. apply NoDup_nil.
+  intros. inversion H2. subst. apply In_singleton. inversion H3. simpl.
+  apply sabsorp_Or1 in H1.
+  apply MPs with (ps:=[(Union (BPropF V) Γ (Singleton (BPropF V) A), Imp B (Or B (Bot V)));(Union (BPropF V) Γ (Singleton (BPropF V) A), B)]).
+  2: apply MPRule_I. intros. inversion H2. subst. apply Axs. apply AxRule_I. apply RA2_I. exists B.
+  exists (Bot V). auto. inversion H3 ; subst. 2: inversion H4.
+  apply MPs with (ps:=[(Union (BPropF V) Γ (Singleton (BPropF V) A), DN_form x A → B);(Union (BPropF V) Γ (Singleton (BPropF V) A), DN_form x A)]).
+  2: apply MPRule_I. intros. inversion H4. subst.
+  apply sBIH_monot with (Γ1:=Union (BPropF V) Γ (Singleton (BPropF V) A)) in H1 ; auto.
+  intro. intros. apply Union_introl ; auto. inversion H5. subst. 2: inversion H6.
+  apply Closure_DN_strong. apply Ids. apply IdRule_I. apply Union_intror. apply In_singleton.
+Qed.
+
 
 
