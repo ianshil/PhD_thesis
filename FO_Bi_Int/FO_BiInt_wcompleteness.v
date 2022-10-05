@@ -178,6 +178,14 @@ Program Instance Canon_model : kmodel term :=
         k_P := fun C P v => In _ (fst (proj1_sig C)) (atom P v)
       |}.
 
+Hypothesis ImpExLem : forall (cp0 : Canon_worlds) A B,
+  (In _ (snd (proj1_sig cp0)) (A --> B)) ->
+  (exists cp1, (reachable cp0 cp1) /\ (In _ (fst (proj1_sig cp1)) A) /\ (In _ (snd (proj1_sig cp1)) B)).
+
+Hypothesis ExclExLem : forall (cp0 : Canon_worlds) A B,
+  (In _ (fst (proj1_sig cp0)) (A --< B)) ->
+  (exists cp1, (reachable cp1 cp0) /\ (In _ (fst (proj1_sig cp1)) A) /\ (In _ (snd (proj1_sig cp1)) B)).
+
 Lemma truth_lemma : forall n A (cp : Canon_worlds),
   (size A = n) ->
   (ksat cp var A) <-> (In _ (fst (proj1_sig cp)) A).
@@ -299,13 +307,21 @@ destruct A ; destruct cp ; simpl ; try simpl in H ; auto.
        right. pose (IH (size A2)). apply i ; simpl ; try lia ; auto.
 (* A1 --> A2 *)
   * split ; intro.
-      +  destruct (classic (In form e0 (A1 --> A2))).
+      + destruct (classic (In form e0 (A1 --> A2))).
           auto. exfalso. unfold ExAllCompNotDer in e. simpl in e. destruct e. destruct a. destruct a.
-          assert (wpair_der (Union _ e0 (Singleton _ A1), Singleton _ A2) -> False).
-          intro. apply H0. apply gen_FOwBIH_Deduction_Theorem in H1.
-          { apply clos_deriv with (Δ:=e1). unfold ExAllCompNotDer ; auto. auto. }
-          (* This is the first place where the proof does not go through, as explained in Subsection 9.10.3 of the dissertation. *)
-          admit.
+          pose (c (A1 --> A2)). destruct o ; auto. simpl in H1.
+          pose (ImpExLem (exist (fun x : Ensemble form * Ensemble form => ExAllCompNotDer x) (e0, e1)
+          (conj w (conj w0 (conj c f)))) A1 A2 H1). destruct e. destruct H2. destruct H3.
+          assert (J0 : (size A1 < size (A1 --> A2))). simpl. lia.
+          pose (IH _ J0 A1 x). apply i in H3 ; auto.
+          pose (H _ H2 H3).
+          assert (J1 : (size A2 < size (A1 --> A2))). simpl. lia.
+          pose (IH _ J1 A2 x). apply i0 in k ; auto. destruct x. simpl in k. simpl in H4. destruct e.
+          destruct a. destruct a. apply f0. exists [A2]. repeat split ; auto. apply NoDup_cons. intro. inversion H5.
+          apply NoDup_nil. intros. inversion H5. subst. auto. inversion H6. simpl.
+          apply MP with (ps:=[(fst x, A2 --> (A2 ∨ ⊥));(fst x, A2)]). 2: apply MPRule_I.
+          intros. inversion H5. subst. apply Ax. apply AxRule_I. apply RA2_I. exists A2. exists bot. auto.
+          apply Id. inversion H6. subst. 2: inversion H7. apply IdRule_I. auto.
         + intros. destruct v. simpl. destruct x. simpl. pose (IH (size A1)). apply i in H1 ; simpl ; try lia ; auto. clear i.
           simpl in H1. unfold Canon_relation in H0. simpl in H0.
           apply H0 in H. unfold ExAllCompNotDer in e2. simpl in e2. destruct e2. destruct a. destruct a.
@@ -365,8 +381,19 @@ destruct A ; destruct cp ; simpl ; try simpl in H ; auto.
       pose (FOwBIH_monot (Empty_set _, (A1 --< A2) --> list_disj (remove eq_dec_form A2 x))
       f e0). apply f0. clear f0. simpl. intro. intros. inversion H5. inversion H5.
       subst. 2: inversion H8. clear H2. clear H5. apply Id. apply IdRule_I. auto.
-       (* This is the second place where the proof does not go through, as explained in Subsection 9.10.3 of the dissertation. *)
-       admit.
+      pose (ExclExLem (exist (fun x : Ensemble form * Ensemble form => ExAllCompNotDer x) (e0, e1) e) A1 A2 H).
+      destruct e2. destruct H1. destruct H2.
+      assert (J0 : (size A1 < size (A1 --< A2))). simpl. lia.
+      pose (IH _ J0 A1 x). apply i in H2 ; auto.
+      assert (J1 : (size A2 < size (A1 --< A2))). simpl. lia.
+      pose (IH _ J1 A2 x). destruct e. destruct a. destruct a. exists x. repeat split ; auto. intro.
+      destruct x. destruct e. destruct a. destruct a. apply f0.
+      exists [A2]. repeat split ; auto. apply NoDup_cons. intro. inversion H5.
+      apply NoDup_nil. intros. inversion H5. subst. auto. inversion H6. simpl.
+      apply MP with (ps:=[(fst x, A2 --> (A2 ∨ ⊥));(fst x, A2)]). 2: apply MPRule_I.
+      intros. inversion H5. subst. apply Ax. apply AxRule_I. apply RA2_I. exists A2. exists bot. auto.
+      apply Id. inversion H6. subst. 2: inversion H7. apply IdRule_I.
+      apply i0 in H4. auto. auto.
 (* Quantifiers *)
 - destruct q.
   (* Universal *)
@@ -428,7 +455,7 @@ destruct A ; destruct cp ; simpl ; try simpl in H ; auto.
        apply MP with (ps:=[(e0, (∃ A) --> (∃ A) ∨ ⊥);(e0, ∃ A)]). 2: apply MPRule_I.
        intros. inversion H2. subst. apply Ax. apply AxRule_I. apply RA2_I. exists (∃ A).
        exists ⊥. auto. inversion H3. subst. 2: inversion H4. apply Id. apply IdRule_I. auto.
-Admitted.
+Qed.
 
 Theorem closedwCounterCompleteness : forall (Γ Δ : @Ensemble form),
     (closed_S Γ) ->
