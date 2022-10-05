@@ -2,6 +2,8 @@ Require Import List.
 Require Import FO_BiInt_Syntax.
 Require Import FO_BiInt_GHC.
 Require Import FO_BiInt_Kripke_sem.
+Require Import FO_BiInt_extens_interactions.
+Require Import FOwBIH_meta_interactions.
 Require Import Classical.
 Require Import Ensembles.
 Require Import Lia.
@@ -454,6 +456,38 @@ split.
 Qed.
 
 (* DMP fails in FOsBIL. *)
+
+
+Lemma Leftprem :
+  spair_der (Singleton (@form Σ_funcs preds_PQ1 _) ((@atom Σ_funcs preds_PQ1 _ (P1pred_I P) (Vector.cons _ ($0) _ (Vector.nil _))) --< (@atom Σ_funcs preds_PQ1 _ Q (Vector.cons _ ($0) _ (Vector.nil _)))),
+  Singleton (@form Σ_funcs preds_PQ1 _) (¬ ∞ ∞ (@atom Σ_funcs preds_PQ1 _ Q (Vector.cons _ ($0) _ (Vector.nil _))))).
+Proof.
+remember (@atom Σ_funcs preds_PQ1 _ Q (Vector.cons _ ($0) _ (Vector.nil _))) as B.
+remember (@atom Σ_funcs preds_PQ1 _ (P1pred_I P) (Vector.cons _ ($0) _ (Vector.nil _))) as A.
+unfold spair_der. exists [(¬ (∞ (∞ B)))]. repeat split ; auto.
+apply NoDup_cons. intro ; inversion H. apply NoDup_nil. intros. inversion H. subst.
+simpl. apply In_singleton. inversion H0.
+simpl. apply MPs with (ps:=[(Singleton form (A --< B), (¬ (∞ (∞ B))) --> ((¬ (∞ (∞ B))) ∨ ⊥));
+(Singleton form (A --< B), ¬ (∞ (∞ B)))]). 2: apply MPRule_I. intros. inversion H. rewrite <- H0.
+apply Axs. apply AxRule_I. apply RA2_I. exists (¬ (∞ (∞ B))). exists ⊥. auto.
+inversion H0. 2: inversion H1. rewrite <- H1.
+apply DNs with (ps:=[(Singleton form (A --< B), ∞ B)]). 2: apply DNsRule_I.
+intros. inversion H2. 2: inversion H3. rewrite <- H3.
+apply FOsBIH_extens_FOwBIH.
+assert (J0: FOwBIH_rules (Empty_set form, (A --< B) --> ∞ B)).
+{ apply wExcl_mon. apply MP with (ps:=[(Empty_set form, ⊤ --> (A --> ⊤));(Empty_set form, ⊤)]).
+   2: apply MPRule_I. intros. inversion H4. rewrite <- H5. apply wThm_irrel. inversion H5. 2: inversion H6.
+   rewrite <- H6. apply wTop. }
+pose (@FOwBIH_Detachment_Theorem Σ_funcs preds_PQ1 (Empty_set form, (A --< B) --> ∞ B) J0
+(A --< B) (∞ B) (Empty_set _)).
+assert (FOwBIH_rules (Union form (Empty_set form) (Singleton form (A --< B)), ∞ B)).
+apply f ; auto.
+assert (Union form (Empty_set form) (Singleton form (A --< B)) = Singleton form (A --< B)).
+apply Extensionality_Ensembles. split ; intro ; intros. inversion H5. inversion H6.
+inversion H6. subst. apply In_singleton. inversion H5. subst. apply Union_intror.
+apply In_singleton. rewrite <- H5 ; auto.
+Qed.
+
 
 Lemma Consequences_Soundness3 :
   (spair_der
