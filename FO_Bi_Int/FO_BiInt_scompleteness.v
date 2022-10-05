@@ -181,6 +181,14 @@ Qed.
 
 End pruned_model.
 
+Hypothesis ImpExLem : forall (cp0 : Canon_worlds) A B,
+  (In _ (snd (proj1_sig cp0)) (A --> B)) ->
+  (exists cp1, (Canon_relation cp0 cp1) /\ (In _ (fst (proj1_sig cp1)) A) /\ (In _ (snd (proj1_sig cp1)) B)).
+
+Hypothesis ExclExLem : forall (cp0 : Canon_worlds) A B,
+  (In _ (fst (proj1_sig cp0)) (A --< B)) ->
+  (exists cp1, (Canon_relation cp1 cp0) /\ (In _ (fst (proj1_sig cp1)) A) /\ (In _ (snd (proj1_sig cp1)) B)).
+
 Theorem sCounterCompleteness : forall (Γ Δ : @Ensemble form),
     (spair_der (Γ, Δ) -> False) ->
     ((glob_conseq Γ Δ) -> False).
@@ -196,7 +204,7 @@ apply DNs with (ps:=[(Γ, A)]). intros. inversion H3. subst. auto.
 inversion H4. apply DNsRule_I.
 assert (J2: wpair_der (DN_clos_set Γ, Δ) -> False).
 intro. apply J1. apply pair_FOsBIH_extens_FOwBIH ; auto.
-pose (wCounterCompleteness encode0 encode0_inj _ _ J2).
+pose (wCounterCompleteness encode0 encode0_inj ImpExLem ExclExLem _ _ J2).
 intro. apply f. intro. intros. unfold glob_conseq in H.
 
 pose (@exist (nodes(domain:=D)) (fun x => (s_is_n_reachable D M u) x) u).
@@ -252,7 +260,7 @@ inversion H4. apply DNsRule_I.
 assert (J2: wpair_der (DN_clos_set Γ, Δ) -> False).
 intro. apply J1. apply pair_FOsBIH_extens_FOwBIH ; auto.
 pose (DNClΓ:= DN_clos_preserv_closed _ ClΓ).
-pose (closedwCounterCompleteness encode0 encode0_inj _ _ DNClΓ ClΔ J2).
+pose (closedwCounterCompleteness encode0 encode0_inj ImpExLem ExclExLem _ _ DNClΓ ClΔ J2).
 intro. apply f. intro. intros. unfold glob_conseq in H.
 
 pose (@exist (nodes(domain:=D)) (fun x => (s_is_n_reachable D M u) x) u).
