@@ -13,7 +13,7 @@ NOTES
 
 In Cut_Elim_GLS, each file has a specific role:
 
-            GLS_PSGLS_calcs.v  ==>  defines the formal language, as well as the GLS and PSGLS calculi
+                  BiInt_GHC.v  ==>  defines the formal language, as well as the wKH and sKH calculi
       GLS_PSGLS_remove_list.v  ==>  defines the operation remove_list on list of formulae
         GLS_PSGLS_list_lems.v  ==>  states useful lemmas about list of formulae
               GLS_PSGLS_dec.v  ==>  shows that the applicability of the rules of GLS and PSGLS is decidable
