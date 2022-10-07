@@ -65,7 +65,7 @@ clean_coq :
 	rm -rf  *.vo *.glob *.v~
 
 clean_general :
-	cd ../general && rm *.vo *.glob && cd ../GL4ip
+	cd ../general && rm *.vo *.glob && cd ../Cut_Elim_iGLS
 
 clean_Cut_Elim_iGLS : clean_coq 
 
