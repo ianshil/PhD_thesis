@@ -1,3 +1,5 @@
+# Cut-elimination for GL4ip
+
 Instructions for compiling files up to and including GL4ip_cut_extraction_theorem.v which extracts cut-elimination.
 =========================================================================================
 
