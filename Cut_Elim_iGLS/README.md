@@ -3,13 +3,13 @@ Instructions for compiling files up to and including GL4ip_cut_elim.v which cont
 
 1. Run "make general" which compiles all files found in ../general directory.
 
-2. Run "make GL4ip_cut_elim.vo" which compiles all files in GL up to and including GL4ip_cut_elim.v.
+2. Run "make GL4ip_cut_elim.vo" which compiles all files in Cut_Elim_iGLS up to and including GL4ip_cut_elim.v.
 
 
 NOTES
 -----
 
-In GL4ip, each file has a specific role:
+In Cut_Elim_iGLS, each file has a specific role:
 
                        DLW_WO_list_nat.v  ==>  defines the shortlex order << (authored by Dominique Larchey-Wendling)
                    GL4ip_PSGL4ip_calcs.v  ==>  defines the formal language, as well as the GL4ip and PSGL4ip calculus
