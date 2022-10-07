@@ -6,7 +6,7 @@
 # Build those by "make general" in the current directory.
 
 general :
-	cd .. && make general && cd GL
+	cd .. && make general && cd Cut_Elim_GLS
 
 GLS_PSGLS_calcs.vo : GLS_PSGLS_calcs.v ../general/gen.vo ../general/genT.vo ../general/ddT.vo ../general/gen_tacs.vo ../general/gen_seq.vo ../general/List_lemmasT.vo ../general/existsT.vo ../general/univ_gen_ext.vo ../general/dd_fc.vo
 
