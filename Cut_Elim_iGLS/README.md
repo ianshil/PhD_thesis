@@ -3,7 +3,7 @@ Instructions for compiling files up to and including GL4ip_cut_extraction_theore
 
 1. Run "make general" which compiles all files found in ../general directory.
 
-2. Run "make GL4ip_cut_elim.vo" which compiles all files in Cut_Elim_iGLS up to and including GL4ip_cut_extraction_theorem.v.
+2. Run "make GL4ip_cut_extraction_theorem.vo" which compiles all files in Cut_Elim_iGLS up to and including GL4ip_cut_extraction_theorem.v.
 
 
 NOTES
