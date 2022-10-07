@@ -11,7 +11,8 @@ general/List_lemmasT.vo \
 general/swappedT.vo \
 general/gen_seq.vo \
 general/strong_inductionT.vo \
-general/univ_gen_ext.vo
+general/univ_gen_ext.vo \
+general/gentree.vo
 
 
 general/gstep.vo: general/gstep.v general/dd_fc.vo general/rtcT.vo
@@ -27,6 +28,7 @@ general/swappedT.vo: general/swappedT.v general/gen_tacs.vo general/List_lemmasT
 general/gen_seq.vo: general/gen_seq.v general/gstep.vo general/swappedT.vo
 general/strong_inductionT.vo: general/strong_inductionT.v
 general/univ_gen_ext.vo: general/univ_gen_ext.v general/gen.vo general/genT.vo general/gen_tacs.vo general/gen_seq.vo general/List_lemmasT.vo
+general/gentree.vo: general/gentree.v general/gen.vo general/genT.vo general/ddT.vo general/dd_fc.vo general/rtcT.vo general/gstep.vo
 
 %.vo : %.v
 	#echo doing $*.v >>log
