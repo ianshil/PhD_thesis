@@ -1,9 +1,9 @@
-Instructions for compiling files up to and including GL4ip_cut_elim.v which contains cut-elimination.
+Instructions for compiling files up to and including GL4ip_cut_extraction_theorem.v which extracts cut-elimination.
 =========================================================================================
 
 1. Run "make general" which compiles all files found in ../general directory.
 
-2. Run "make GL4ip_cut_elim.vo" which compiles all files in Cut_Elim_iGLS up to and including GL4ip_cut_elim.v.
+2. Run "make GL4ip_cut_elim.vo" which compiles all files in Cut_Elim_iGLS up to and including GL4ip_cut_extraction_theorem.v.
 
 
 NOTES
@@ -33,8 +33,10 @@ In Cut_Elim_iGLS, each file has a specific role:
                       GL4ip_inv_ImpL_R.v  ==>  shows that the rule (->L) is right-invertible in GL4ip
            PSGL4ip_termination_measure.v  ==>  defines the measure to show the termination of PSGL4ip
                    PSGL4ip_termination.v  ==>  shows the termination of PSGL4ip
+                         GL4ip_prv_dec.v  ==>  shows that provability in PSGL4ip and GL4ip is decidable 
                     GL4ip_additive_cut.v  ==>  shows that GL4ip admits cut
                         GL4ip_cut_elim.v  ==>  shows that cut is eliminable from GL4ip + cut
+          GL4ip_cut_extraction_theorem.v  ==>  extract the Haskell program performing cut-elimination
 
 Acknowledgement 
 -----
