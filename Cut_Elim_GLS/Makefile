@@ -30,8 +30,11 @@ PSGLS_termination.vo : PSGLS_termination.v ../general/gen.vo ../general/genT.vo 
 
 PSGLS_termination_measure.vo : PSGLS_termination_measure.v GLS_PSGLS_calcs.vo ../general/genT.vo ../general/ddT.vo ../general/gen_tacs.vo ../general/existsT.vo ../general/univ_gen_ext.vo ../general/dd_fc.vo GLS_PSGLS_list_lems.vo GLS_PSGLS_remove_list.vo ../general/List_lemmasT.vo
 
+GLS_cut_elim.vo : GLS_cut_elim.v GLS_PSGLS_calcs.vo ../general/gen.vo ../general/genT.vo ../general/ddT.vo ../general/gen_tacs.vo ../general/gen_seq.vo ../general/List_lemmasT.vo ../general/existsT.vo ../general/univ_gen_ext.vo ../general/dd_fc.vo GLS_PSGLS_list_lems.vo ../general/strong_inductionT.vo PSGLS_termination_measure.vo PSGLS_termination.vo GLS_exch.vo GLS_wkn.vo GLS_ctr.vo GLS_PSGLS_remove_list.vo GLS_PSGLS_dec.vo GLS_inv_ImpR_ImpL.vo GLS_additive_cut.vo
 
+GLS_cut_extraction_theorem.vo : GLS_cut_extraction_theorem.v GLS_cut_elim.vo GLS_prv_dec.vo
 
+GLS_prv_dec.vo : GLS_prv_dec.v GLS_PSGLS_calcs.vo ../general/gen.vo ../general/genT.vo ../general/ddT.vo ../general/gen_tacs.vo ../general/gen_seq.vo ../general/List_lemmasT.vo ../general/existsT.vo ../general/univ_gen_ext.vo ../general/dd_fc.vo GLS_PSGLS_list_lems.vo ../general/strong_inductionT.vo PSGLS_termination_measure.vo PSGLS_termination.vo GLS_exch.vo GLS_wkn.vo GLS_ctr.vo GLS_PSGLS_remove_list.vo GLS_PSGLS_dec.vo GLS_inv_ImpR_ImpL.vo
 
 
 
@@ -39,11 +42,11 @@ clean_coq :
 	rm -rf  *.vo *.glob *.v~
 
 clean_general :
-	cd ../general && rm *.vo *.glob && cd ../GL
+	cd ../general && rm *.vo *.glob && cd ../Cut_Elim_GLS
 
-clean_GL : clean_coq 
+clean_Cut_Elim_GLS : clean_coq 
 
-clean_all : clean_general clean_GL
+clean_all : clean_general clean_Cut_Elim_GLS
 
 clean_stray :
 	rm *~
