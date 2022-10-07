@@ -1,4 +1,4 @@
-#Cut-elimination for GLS
+# Cut-elimination for GLS
 
 Instructions for compiling files up to and including GLS_extraction_theorem.v which extracts cut-elimination.
 =========================================================================================
