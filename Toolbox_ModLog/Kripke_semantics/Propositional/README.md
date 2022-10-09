@@ -3,7 +3,7 @@
 Instructions for compiling all files in Kripke_semantics.
 =========================================================================================
 
-1. Run "make Syntax" which compiles all files found in ../Syntax directory.
+1. Run "make Syntax" which compiles all files found in ../../Syntax directory.
 
 2. Run "make KSPropositional_all" which compiles all files in Propositional.
 
