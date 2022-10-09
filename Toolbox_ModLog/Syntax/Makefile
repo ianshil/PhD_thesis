@@ -3,6 +3,7 @@
 
 K_Syntax.vo: K_Syntax.v
 K_FO_Syntax.vo: K_FO_Syntax.v
+Syntax_all: K_Syntax.vo K_FO_Syntax.vo
 
 clean_coq :
 	rm -rf  *.vo *.glob *.v~
