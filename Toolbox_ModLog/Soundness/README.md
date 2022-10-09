@@ -15,6 +15,6 @@ Instructions for compiling all files in Soundness.
 NOTES
 -----
 
-In Prop_Bi_Int, each file has a specific role:
+In Soundness, each file has a specific role:
 
               wKH_sKH_soundness.v  ==>  shows soundess of wKH (resp. sKH) w.r.t. the local (resp. global) semantic consequence relation
