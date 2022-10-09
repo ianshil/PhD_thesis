@@ -2,7 +2,7 @@
 	coqc $*.v
 
 
-# NOTE: some of these also depend on Coq files in ../../general and ../Toolbox_ModLog/Syntax.
+# NOTE: some of these also depend on Coq files in ../../general and ../Syntax.
 # Build those by "make general" and "make Syntax" in the current directory.
 
 general :
