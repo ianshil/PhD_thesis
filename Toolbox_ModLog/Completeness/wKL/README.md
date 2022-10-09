@@ -17,5 +17,6 @@ NOTES
 
 In wKL, each file has a specific role:
 
+            K_strong_induction.v  ==>  shows a strong induction principle on natural numbers
             wKH_Lindenbaum_lem.v  ==>  shows a Lindenbaum lemma for wKH
               wKH_completeness.v  ==>  shows completeness of wKH w.r.t. the local semantic consequence relation
