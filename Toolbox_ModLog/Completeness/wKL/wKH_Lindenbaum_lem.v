@@ -14,7 +14,7 @@ Require Import K_GHC.
 Require Import K_logics.
 Require Import K_extens_interactions.
 Require Import K_wKH_meta_interactions.
-Require Import strong_induction.
+Require Import K_strong_induction.
 
 
 
