@@ -19,7 +19,7 @@ wKS_list_lems.vo : wKS_list_lems.v ../general/genT.vo ../general/gen_tacs.vo ../
 
 wKS_remove_list.vo : wKS_remove_list.v wKS_calcs.vo ../general/existsT.vo
 
-wKS_additive_cut.vo : wKS_additive_cut.v wKS_calcs.vo ../general/gen.vo ../general/genT.vo ../general/ddT.vo ../general/gen_tacs.vo ../general/gen_seq.vo ../general/List_lemmasT.vo ../general/existsT.vo ../general/univ_gen_ext.vo ../general/dd_fc.vo wKS_list_lems.vo ../general/strong_inductionT.vo PSwKS_termination_measure.vo PSwKS_termination.vo wKS_exch.vo wKS_wkn.vo wKS_ctr.vo wKS_remove_list.vo wKS_dec.vo wKS_inv_ImpR_ImpL.vo
+wKS_additive_cut.vo : wKS_additive_cut.v wKS_calcs.vo ../general/gen.vo ../general/genT.vo ../general/ddT.vo ../general/gen_tacs.vo ../general/gen_seq.vo ../general/List_lemmasT.vo ../general/existsT.vo ../general/univ_gen_ext.vo ../general/dd_fc.vo wKS_list_lems.vo ../general/strong_inductionT.vo wKS_termination_measure.vo wKS_termination.vo wKS_exch.vo wKS_wkn.vo wKS_ctr.vo wKS_remove_list.vo wKS_dec.vo wKS_inv_ImpR_ImpL.vo
 
 wKS_ctr.vo : wKS_ctr.v wKS_calcs.vo ../general/gen.vo ../general/genT.vo ../general/ddT.vo ../general/gen_tacs.vo ../general/gen_seq.vo ../general/List_lemmasT.vo ../general/existsT.vo ../general/univ_gen_ext.vo wKS_list_lems.vo ../general/dd_fc.vo ../general/strong_inductionT.vo wKS_inv_ImpR_ImpL.vo
 
@@ -29,15 +29,15 @@ wKS_inv_ImpR_ImpL.vo : wKS_inv_ImpR_ImpL.v wKS_calcs.vo ../general/gen.vo ../gen
 
 wKS_wkn.vo : wKS_wkn.v wKS_calcs.vo ../general/gen.vo ../general/genT.vo ../general/ddT.vo ../general/gen_tacs.vo ../general/gen_seq.vo ../general/List_lemmasT.vo ../general/existsT.vo ../general/univ_gen_ext.vo ../general/dd_fc.vo wKS_list_lems.vo ../general/strong_inductionT.vo wKS_dec.vo
 
-PSwKS_termination.vo : PSwKS_termination.v ../general/gen.vo ../general/genT.vo ../general/ddT.vo ../general/gen_tacs.vo ../general/gen_seq.vo ../general/List_lemmasT.vo ../general/existsT.vo ../general/univ_gen_ext.vo ../general/dd_fc.vo wKS_list_lems.vo ../general/strong_inductionT.vo wKS_dec.vo PSwKS_termination_measure.vo wKS_remove_list.vo
+wKS_termination.vo : wKS_termination.v ../general/gen.vo ../general/genT.vo ../general/ddT.vo ../general/gen_tacs.vo ../general/gen_seq.vo ../general/List_lemmasT.vo ../general/existsT.vo ../general/univ_gen_ext.vo ../general/dd_fc.vo wKS_list_lems.vo ../general/strong_inductionT.vo wKS_dec.vo wKS_termination_measure.vo wKS_remove_list.vo
 
-PSwKS_termination_measure.vo : PSwKS_termination_measure.v wKS_calcs.vo ../general/genT.vo ../general/ddT.vo ../general/gen_tacs.vo ../general/existsT.vo ../general/univ_gen_ext.vo ../general/dd_fc.vo wKS_list_lems.vo wKS_remove_list.vo ../general/List_lemmasT.vo
+wKS_termination_measure.vo : wKS_termination_measure.v wKS_calcs.vo ../general/genT.vo ../general/ddT.vo ../general/gen_tacs.vo ../general/existsT.vo ../general/univ_gen_ext.vo ../general/dd_fc.vo wKS_list_lems.vo wKS_remove_list.vo ../general/List_lemmasT.vo
 
-wKS_cut_elim.vo : wKS_cut_elim.v wKS_calcs.vo ../general/gen.vo ../general/genT.vo ../general/ddT.vo ../general/gen_tacs.vo ../general/gen_seq.vo ../general/List_lemmasT.vo ../general/existsT.vo ../general/univ_gen_ext.vo ../general/dd_fc.vo wKS_list_lems.vo ../general/strong_inductionT.vo PSwKS_termination_measure.vo PSwKS_termination.vo wKS_exch.vo wKS_wkn.vo wKS_ctr.vo wKS_remove_list.vo wKS_dec.vo wKS_inv_ImpR_ImpL.vo wKS_additive_cut.vo
+wKS_cut_elim.vo : wKS_cut_elim.v wKS_calcs.vo ../general/gen.vo ../general/genT.vo ../general/ddT.vo ../general/gen_tacs.vo ../general/gen_seq.vo ../general/List_lemmasT.vo ../general/existsT.vo ../general/univ_gen_ext.vo ../general/dd_fc.vo wKS_list_lems.vo ../general/strong_inductionT.vo wKS_termination_measure.vo wKS_termination.vo wKS_exch.vo wKS_wkn.vo wKS_ctr.vo wKS_remove_list.vo wKS_dec.vo wKS_inv_ImpR_ImpL.vo wKS_additive_cut.vo
 
 wKS_cut_extraction_theorem.vo : wKS_cut_extraction_theorem.v wKS_cut_elim.vo wKS_prv_dec.vo
 
-wKS_prv_dec.vo : wKS_prv_dec.v wKS_calcs.vo ../general/gen.vo ../general/genT.vo ../general/ddT.vo ../general/gen_tacs.vo ../general/gen_seq.vo ../general/List_lemmasT.vo ../general/existsT.vo ../general/univ_gen_ext.vo ../general/dd_fc.vo wKS_list_lems.vo ../general/strong_inductionT.vo PSwKS_termination_measure.vo PSwKS_termination.vo wKS_exch.vo wKS_wkn.vo wKS_ctr.vo wKS_remove_list.vo wKS_dec.vo wKS_inv_ImpR_ImpL.vo
+wKS_prv_dec.vo : wKS_prv_dec.v wKS_calcs.vo ../general/gen.vo ../general/genT.vo ../general/ddT.vo ../general/gen_tacs.vo ../general/gen_seq.vo ../general/List_lemmasT.vo ../general/existsT.vo ../general/univ_gen_ext.vo ../general/dd_fc.vo wKS_list_lems.vo ../general/strong_inductionT.vo wKS_termination_measure.vo wKS_termination.vo wKS_exch.vo wKS_wkn.vo wKS_ctr.vo wKS_remove_list.vo wKS_dec.vo wKS_inv_ImpR_ImpL.vo
 
 
 
