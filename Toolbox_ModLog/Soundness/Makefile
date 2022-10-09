@@ -12,7 +12,7 @@ KSPropositional :
 	cd .. && cd Kripke_semantics && cd Propositional && make KSPropositional_all && cd .. && cd .. && cd Soundness
 
 Syntax :
-	cd .. && cd Syntax && make Syntax_all && cd .. && cd Generalized_Hilbert_calculi
+	cd .. && cd Syntax && make Syntax_all && cd .. && cd Soundness
 
 wKH_sKH_soundness.vo: wKH_sKH_soundness.v K_Syntax.vo K_Kripke_sem.vo
 
