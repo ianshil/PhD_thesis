@@ -1,6 +1,6 @@
 # Propositional Kripke Semantics
 
-Instructions for compiling all files in Kripke_semantics.
+Instructions for compiling all files in Propositional.
 =========================================================================================
 
 1. Run "make Syntax" which compiles all files found in ../../Syntax directory.
