@@ -14,7 +14,7 @@ KSPropositional :
 Syntax :
 	cd .. && cd Syntax && make Syntax_all && cd .. && cd Soundness
 
-wKH_sKH_soundness.vo: wKH_sKH_soundness.v K_Syntax.vo K_Kripke_sem.vo
+wKH_sKH_soundness.vo: wKH_sKH_soundness.v K_Syntax.vo K_GHC.vo K_Kripke_sem.vo
 
 
 
