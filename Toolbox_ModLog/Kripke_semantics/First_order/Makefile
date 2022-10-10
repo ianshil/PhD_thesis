@@ -3,7 +3,7 @@
 
 
 # NOTE: some of these also depend on Coq files in ../../Syntax.
-# Build those by "make general" and "make Syntax" in the current directory.
+# Build those by "make Syntax" in the current directory.
   
 Syntax :
 	cd .. && cd .. && cd Syntax && make Syntax_all && cd .. && cd Kripke_semantics && cd First_order
