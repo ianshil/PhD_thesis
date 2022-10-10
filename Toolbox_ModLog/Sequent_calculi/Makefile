@@ -45,11 +45,11 @@ clean_coq :
 	rm -rf  *.vo *.glob *.v~
 
 clean_general :
-	cd ../general && rm *.vo *.glob && cd ../Cut_Elim_wKS
+	cd ../general && rm *.vo *.glob && cd ../Sequent_calculi
 
-clean_Cut_Elim_wKS : clean_coq 
+clean_Sequent_calculi : clean_coq 
 
-clean_all : clean_general clean_Cut_Elim_wKS
+clean_all : clean_general clean_Sequent_calculi
 
 clean_stray :
 	rm *~
