@@ -17,7 +17,7 @@ clean_coq :
 clean_general :
 	cd ../../../general && rm *.vo *.glob && cd ../Toolbox_ModLog/Kripke_semantics/First_order
 
-clean_Propositional : clean_coq 
+clean_First_order : clean_coq 
 
 clean_all : clean_general clean_First_order
 
